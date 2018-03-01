@@ -1,0 +1,6 @@
+jira==1.0.10
+python-dateutil==2.6.1
+pytz==2018.3
+pandas==0.22.0
+influxdb==5.0.0
+configparser==3.5.0
