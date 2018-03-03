@@ -35,4 +35,3 @@ if __name__ == "__main__":
     solution_data = jira_instance.calculate_statistics(result)
 
     print(solution_data)
-    
