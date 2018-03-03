@@ -1,26 +1,22 @@
+#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
+##
+# Copyright 2017 FIWARE Foundation, e.V.
+# All Rights Reserved.
 #
-# Copyright 2014 Telefonica Investigación y Desarrollo, S.A.U
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
 #
-# This file is part of FI-WARE project.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-#
-# You may obtain a copy of the License at:
-#
-#        http://www.apache.org/licenses/LICENSE-2.0
+#         http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# For those usages not covered by the Apache version 2.0 License please
-# contact with opensource@tid.es
-#
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+##
+
 __author__ = 'fla'
 
 from unittest import TestCase
@@ -274,7 +270,7 @@ class TestDifferenceOfficeTime(TestCase):
 
     def test_strange_casuistic_2(self):
         a = datetime(2017, 12, 17, 14, 40, 16)
-        b = datetime(2017, 12, 19, 07, 34, 25)
+        b = datetime(2017, 12, 19, 7, 34, 25)
 
         expected_diff = timedelta(hours=9)
         official_time = SLATime.office_time_between(a, b)
@@ -282,8 +278,8 @@ class TestDifferenceOfficeTime(TestCase):
         self.assertEqual(expected_diff, official_time)
 
     def test_strange_casuistic_3(self):
-        a = datetime(2017, 11, 20, 03, 41, 16)
-        b = datetime(2017, 11, 20, 05, 03, 2, 809000)
+        a = datetime(2017, 11, 20, 3, 41, 16)
+        b = datetime(2017, 11, 20, 5, 3, 2, 809000)
 
         expected_diff = timedelta(hours=0)
         official_time = SLATime.office_time_between(a, b)
@@ -291,8 +287,8 @@ class TestDifferenceOfficeTime(TestCase):
         self.assertEqual(expected_diff, official_time)
 
     def test_strange_casuistic_4(self):
-        a = datetime(2017, 11, 20, 03, 41, 16)
-        b = datetime(2017, 11, 20, 05, 03, 11)
+        a = datetime(2017, 11, 20, 3, 41, 16)
+        b = datetime(2017, 11, 20, 5, 3, 11)
 
         expected_diff = timedelta(hours=0)
         official_time = SLATime.office_time_between(a, b)
@@ -300,8 +296,8 @@ class TestDifferenceOfficeTime(TestCase):
         self.assertEqual(expected_diff, official_time)
 
     def test_strange_casuistic_5(self):
-        a = datetime(2017, 11, 13, 04, 12, 15)
-        b = datetime(2017, 11, 13, 05, 02, 30, 883000)
+        a = datetime(2017, 11, 13, 4, 12, 15)
+        b = datetime(2017, 11, 13, 5, 2, 30, 883000)
 
         expected_diff = timedelta(hours=0)
         official_time = SLATime.office_time_between(a, b)
@@ -310,7 +306,7 @@ class TestDifferenceOfficeTime(TestCase):
 
     def test_strange_casuistic_6(self):
         a = datetime(2017, 11, 13, 4, 12, 15)
-        b = datetime(2017, 12, 04, 8, 24, 26)
+        b = datetime(2017, 12, 4, 8, 24, 26)
 
         expected_diff = timedelta(days=5, hours=15, minutes=24, seconds=26)
         official_time = SLATime.office_time_between(a, b)
@@ -318,8 +314,8 @@ class TestDifferenceOfficeTime(TestCase):
         self.assertEqual(expected_diff, official_time)
 
     def test_strange_casuistic_7(self):
-        a = datetime(2017, 11, 06, 06, 36, 14)
-        b = datetime(2017, 11, 06, 06, 39, 23, 320000)
+        a = datetime(2017, 11, 6, 6, 36, 14)
+        b = datetime(2017, 11, 6, 6, 39, 23, 320000)
 
         expected_diff = timedelta(hours=0)
         official_time = SLATime.office_time_between(a, b)
@@ -327,8 +323,8 @@ class TestDifferenceOfficeTime(TestCase):
         self.assertEqual(expected_diff, official_time)
 
     def test_strange_casuistic_8(self):
-        a = datetime(2017, 11, 06, 06, 36, 14)
-        b = datetime(2017, 11, 06, 06, 39, 47)
+        a = datetime(2017, 11, 6, 6, 36, 14)
+        b = datetime(2017, 11, 6, 6, 39, 47)
 
         expected_diff = timedelta(hours=0)
         official_time = SLATime.office_time_between(a, b)
@@ -336,8 +332,8 @@ class TestDifferenceOfficeTime(TestCase):
         self.assertEqual(expected_diff, official_time)
 
     def test_strange_casuistic_9(self):
-        a = datetime(2017, 11, 06, 06, 36, 14)
-        b = datetime(2017, 11, 06, 06, 36, 14)
+        a = datetime(2017, 11, 6, 6, 36, 14)
+        b = datetime(2017, 11, 6, 6, 36, 14)
 
         expected_diff = timedelta(hours=0)
         official_time = SLATime.office_time_between(a, b)
@@ -345,8 +341,8 @@ class TestDifferenceOfficeTime(TestCase):
         self.assertEqual(expected_diff, official_time)
 
     def test_strange_casuistic_10(self):
-        a = datetime(2018, 2, 18, 06, 36, 14)
-        b = datetime(2018, 2, 19, 06, 36, 14)
+        a = datetime(2018, 2, 18, 6, 36, 14)
+        b = datetime(2018, 2, 19, 6, 36, 14)
 
         expected_diff = timedelta(hours=0)
         official_time = SLATime.office_time_between(a, b)
