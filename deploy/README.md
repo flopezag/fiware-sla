@@ -1,0 +1,34 @@
+# Setting up a stand-alone FIWARE Lab User Create service
+
+This describes how to deploy FIWARE Lab User Create service an 
+[ansible](http://www.ansible.com) playbook. This has been tested on the 
+[FIWARE Lab](https://cloud.lab.fiware.org) cloud.
+
+It will install the service and the different configurations file in order 
+to create automatically new FIWARE Lab user accounts (Trial) inside the FIWARE 
+Lab taking into account the information that we keep in the Google Spreadsheet 
+and the information that we have in the JIRA ticketing system.
+
+Additionally, it autoconfigure the tool in order to use it every day through 
+the configuration of the proper crontab service.
+
+## How to start it
+
+* Create virtualenv and activate it:
+
+      virtualenv -p python2.7 $NAME_VIRTUAL_ENV
+      source $NAME_VIRTUAL_ENV/bin/activate
+
+* Install the requirements:
+
+      pip install -r requirements.txt
+
+* Edit the setup variables to fit your setup. Open `vars/data.yml` and setup
+  the variables as explained there.
+
+* One all the variables are in place you should now be able to deploy and
+  configure the service. Just run the following command:
+
+      ansible-playbook -vvvv -i inventory.yml \
+      --private-key=(Key pair to access to the instance) \
+      deploy_user-create.yml

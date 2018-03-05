@@ -1,0 +1,68 @@
+---
+# ------------------------
+# Deploy the general stuff
+# ------------------------
+- hosts: user-create
+  become: yes
+  # strategy: debug
+
+  vars_files:
+    - vars/data.yml
+
+
+  pre_tasks:
+    - name: Update APT cache
+      apt: update_cache=yes
+
+  tasks:
+    # General tasks
+    - name: install pip
+      apt: name=python-pip state=present update_cache=yes
+
+    - name: install virtualenv
+      apt: name=python-virtualenv state=present update_cache=yes
+
+    - name: disable net.ipv6.conf.all.disable_ipv6
+      sysctl: name=net.ipv6.conf.all.disable_ipv6 value=1 state=present
+
+    - name: disable net.ipv6.conf.default.disable_ipv6
+      sysctl: name=net.ipv6.conf.default.disable_ipv6 value=1 state=present
+ 
+    - name: disable net.ipv6.conf.lo.disable_ipv6
+      sysctl: name=net.ipv6.conf.lo.disable_ipv6 value=1 state=present
+
+    - name: distribute the fiware-sla.ini file
+      template: src=templates/fiware-sla.ini.j2 dest=/etc/fiware.d/fiware-sla.ini mode=0664
+
+    # Clone repository
+    - git:
+        repo: https://github.com/flopezag/fiware-sla.git
+        dest: /home/fla/fiware-sla
+
+    # Change to develop branch
+    - name: Change the working directory to fiware-sla/ before changing the branch to develop.
+      shell: git checkout develop
+      args:
+        chdir: /home/fla/fiware-sla/
+
+    # Configure files
+    - name: Give execution permission to the config.sh file
+      shell: sudo chmod 764 ./config.sh
+      args:
+        chdir: /home/fla/fiware-sla/deploy/
+
+    # Configure files
+    - name: Run the config.sh script and configure the environment
+      shell: sudo ./config.sh >> config.log 2>error.out
+      args:
+        chdir: /home/fla/fiware-sla/deploy/
+
+    # Configure logrotate
+    - name: Copy logrotate configuration file
+      shell: sudo cp ./fiware-sla/config/fiware-sla.logrotate /etc/logrotate.d/fiware-sla
+
+    # Create logs directory (initially empty)
+    - name: Create the logs directory.
+      shell: mkdir logs
+      args:
+        chdir: /home/fla/fiware-sla/

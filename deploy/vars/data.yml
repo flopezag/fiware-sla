@@ -1,0 +1,27 @@
+---
+# FIWARE JIRA URL
+jira_server_url: <FIWARE JIRA URL>
+
+# FIWARE JIRA Username
+jira_user: <FIWARE JIRA Username>
+
+# FIWARE JIRA Password
+jira_password: <FIWARE JIRA Password>
+
+# JIRA Query to get information about the tickets
+jira_query: <JIRA jql to recover list of tickets>
+
+# LOG Level of the application
+log_level: <LOG Level of the application>
+
+# Mailer host
+mail_host: <Email host>
+
+# Default from:
+msg_from: <Message from:>
+
+# First default to:
+first_default_msg_to: <Default first email to:>
+
+# Second default to:
+second_default_msg_to: <Default second email to:>

@@ -1,0 +1,11 @@
+su fla fla
+
+/logs/fiware-sla.log {
+        size 1k
+        copytruncate
+        create 664 fla fla
+        dateext
+        rotate 4
+        compress
+        missingok
+}
