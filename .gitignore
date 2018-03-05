@@ -103,3 +103,7 @@ ENV/
 # IDE
 .idea
 .vscode
+
+# Python coding style
+/py27
+/pycodestyle

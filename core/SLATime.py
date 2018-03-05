@@ -63,7 +63,11 @@ class SLATime:
             first_date.replace(day=first_date.day, hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
 
         second_date_new = \
-            second_date.replace(day=second_date.day, hour=23, minute=59, second=59, microsecond=999999) - timedelta(days=1)
+            second_date.replace(day=second_date.day,
+                                hour=23,
+                                minute=59,
+                                second=59,
+                                microsecond=999999) - timedelta(days=1)
 
         precision = 0.000001
 

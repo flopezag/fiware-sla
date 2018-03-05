@@ -61,8 +61,7 @@ class Jira():
                                 (item.items[0].fromString == 'Open' and item.items[0].toString == 'In Progress')
                                 or
                                 (item.items[0].fromString == 'Open' and item.items[0].toString == 'Answered')
-                          )
-                      )]
+                              ))]
 
         if len(progressed) == 0:
             # This is an issues that was dismissed, therefore the time should be calculate in a different way
@@ -82,7 +81,7 @@ class Jira():
             t_progressed = parser.parse(progressed[0])
             # time_response = (t_progressed - t_created).total_seconds()
             time_response = SLATime.office_time_between(t_created, t_progressed).total_seconds()
-        except:
+        except Exception:
             # time_response = (t_now - t_created).total_seconds()
             time_response = SLATime.office_time_between(t_created, t_now).total_seconds()
             t_progressed = None
@@ -91,7 +90,7 @@ class Jira():
             t_resolved = parser.parse(resolved)
             # time_resolve = (t_resolved - t_created).total_seconds()
             time_resolve = SLATime.office_time_between(t_created, t_resolved).total_seconds()
-        except:
+        except Exception:
             # time_resolve = (t_now - t_created).total_seconds()
             time_resolve = SLATime.office_time_between(t_created, t_now).total_seconds()
             t_resolved = None
@@ -169,7 +168,10 @@ class Jira():
             start_idx = block_num * block_size
 
             list_issues = \
-                self.jira.search_issues(jql_str=JIRA_QUERY, startAt=start_idx, maxResults=block_size, expand='changelog')
+                self.jira.search_issues(jql_str=JIRA_QUERY,
+                                        startAt=start_idx,
+                                        maxResults=block_size,
+                                        expand='changelog')
 
             if len(list_issues) == 0:
                 # Retrieve issues until there are no more to come
