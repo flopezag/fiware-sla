@@ -20,7 +20,7 @@
 
 # Initializing variables
 
-PYTHON_FILE="user-create.py"
+PYTHON_FILE="SLAMeassurement.py"
 INITIAL_HEADER="#\!\/usr\/bin\/env python"
 FINAL_HEADER='#\!\/usr\/bin\/env '
 VIRTUALENV_DIR='\/env\/bin\/python'
@@ -41,7 +41,7 @@ fi
 
 
 
-# 2) Configure user-create.py file
+# 2) Configure SLAMeassurement.py file
 
 working_directory=${PWD}
 
@@ -56,7 +56,7 @@ chmod 744 ${PYTHON_FILE}
 
 
 # 3) configure crontab
-username=$(whoami)
+username="ubuntu"
 result=$(crontab -u ${username} -l 2>/dev/null)
 
 if [ "$result" == "" ]; then

@@ -85,6 +85,9 @@
       args:
         chdir: /home/fla/fiware-sla/deploy/
 
+    - name: Assign the correct user/group to the directory
+      shell: sudo chown -R ubuntu:ubuntu /home/fla/fiware-sla/
+      
     # Configure files
     - name: Run the config.sh script and configure the environment
       shell: sudo ./config.sh >> /home/fla/fiware-sla/log/config.log 2>/home/fla/fiware-sla/log/error.out
