@@ -108,5 +108,8 @@ ENV/
 /py27
 /pycodestyle
 
-# Ignore unit tests result file
+# Unit tests result file
 xunit.xml
+
+# Temporal ansible files
+/deploy/.retry
