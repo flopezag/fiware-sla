@@ -148,10 +148,10 @@ class Jira():
             p_time_resolve = number_below_time_resolve * 1.0 / number_time_resolve * 100
             p_time_response = number_below_time_response * 1.0 / number_time_response * 100
 
-            logger.info('Node: {}, Percentage tickets response in less than 24 working hours: {}'
+            logger.info('Node: {}, Percentage responded tickets in less than 24 working hours: {}'
                         .format(nodes[i], p_time_response))
 
-            logger.info('Node: {}, Percentage tickets response in less than 2 working days: {}'
+            logger.info('Node: {}, Percentage resolved tickets in less than 2 working days: {}'
                         .format(nodes[i], p_time_resolve))
 
             solution_list = {
