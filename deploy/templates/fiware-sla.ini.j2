@@ -24,11 +24,5 @@ query: {{jira_query}}
 url: {{ jira_server_url }}
 
 [log]
+# Sets the threshold for the logger level.
 loglevel: {{ log_level }}
-
-[mailer]
-# Configuration data to send emails
-mail_host: {{ mail_host }}
-msg_from: {{ msg_from }}
-first_default_msg_to: {{ first_default_msg_to }}
-second_default_msg_to: {{ second_default_msg_to }}
