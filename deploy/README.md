@@ -1,14 +1,14 @@
 # Setting up a stand-alone FIWARE Lab User Create service
 
-This content describes how to deploy FIWARE SLA service using an 
-[ansible](http://www.ansible.com) playbook. It has been tested on the 
+This content describes how to deploy FIWARE SLA service using an
+[ansible](http://www.ansible.com) playbook. It has been tested on the
 [FIWARE Lab](https://cloud.lab.fiware.org) cloud.
 
-It will install the service and the different configurations file in order 
-to calculate automatically the SLA leves associated to the response and 
+It will install the service and the different configurations file in order
+to calculate automatically the SLA leves associated to the response and
 resolution of the JIRA tickets associates to each FIWARE Lab node.
 
-Additionally, it autoconfigures the tool in order to use it every day through 
+Additionally, it autoconfigures the tool in order to use it every day through
 the configuration of the proper crontab service.
 
 ## How to start it
