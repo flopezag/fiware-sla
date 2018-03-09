@@ -2,7 +2,7 @@
 # ------------------------
 # Deploy the general stuff
 # ------------------------
-- hosts: user-create
+- hosts: fiware-sla
   become: yes
   # strategy: debug
 
@@ -22,6 +22,9 @@
     - name: install virtualenv
       apt: name=python-virtualenv state=present update_cache=yes
 
+    - name: install NTP
+      apt: name=ntp state=present update_cache=yes
+
     - name: disable net.ipv6.conf.all.disable_ipv6
       sysctl: name=net.ipv6.conf.all.disable_ipv6 value=1 state=present
 
@@ -31,6 +34,31 @@
     - name: disable net.ipv6.conf.lo.disable_ipv6
       sysctl: name=net.ipv6.conf.lo.disable_ipv6 value=1 state=present
 
+    - name: Ansible check /etc/fiware.d directory exists.
+      stat:
+        path: /etc/fiware.d
+      register: fiware_d_directory
+      
+    - name: Check hostname
+      command: hostname
+      register: hostname
+
+    - debug:
+      msg: "{{ hostname }}"
+
+    - name: add myself to /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '^127\.0\.0\.1[ \t]+localhost'
+        line: '127.0.0.1 localhost {{hostname.stdout}}'
+        state: present
+
+    - name: Create the /etc/fiware.d directory.
+      shell: mkdir fiware.d
+      args:
+        chdir: /etc
+      when: fiware_d_directory.stat.exists == false
+
     - name: distribute the fiware-sla.ini file
       template: src=templates/fiware-sla.ini.j2 dest=/etc/fiware.d/fiware-sla.ini mode=0664
 
@@ -38,6 +66,12 @@
     - git:
         repo: https://github.com/flopezag/fiware-sla.git
         dest: /home/fla/fiware-sla
+
+    # Create logs directory (initially empty)
+    - name: Create the logs directory.
+      shell: mkdir log
+      args:
+        chdir: /home/fla/fiware-sla/
 
     # Change to develop branch
     - name: Change the working directory to fiware-sla/ before changing the branch to develop.
@@ -53,16 +87,10 @@
 
     # Configure files
     - name: Run the config.sh script and configure the environment
-      shell: sudo ./config.sh >> config.log 2>error.out
+      shell: sudo ./config.sh >> /home/fla/fiware-sla/log/config.log 2>/home/fla/fiware-sla/log/error.out
       args:
         chdir: /home/fla/fiware-sla/deploy/
 
     # Configure logrotate
     - name: Copy logrotate configuration file
-      shell: sudo cp ./fiware-sla/config/fiware-sla.logrotate /etc/logrotate.d/fiware-sla
-
-    # Create logs directory (initially empty)
-    - name: Create the logs directory.
-      shell: mkdir logs
-      args:
-        chdir: /home/fla/fiware-sla/
+      shell: sudo cp /home/fla/fiware-sla/config/fiware-sla.logrotate /etc/logrotate.d/fiware-sla

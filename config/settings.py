@@ -52,6 +52,16 @@ Config = ConfigParser()
 Config.read(cfg_filename)
 
 
+def check_log_level(loglevel):
+    numeric_level = getattr(logging, loglevel.upper(), None)
+
+    if not isinstance(numeric_level, int):
+        print('Invalid log level: {}'.format(loglevel))
+        exit()
+
+    return numeric_level
+
+
 def config_section_map(section):
     dict1 = {}
     options = Config.options(section)
@@ -75,9 +85,20 @@ if Config.sections():
     JIRA_QUERY = auth_section['query']
     JIRA_URL = auth_section['url']
 
+    # Data from Log section
+    log_section = config_section_map("log")
+
+    LOG_LEVEL = check_log_level(log_section['loglevel'])
+
+
 else:
     msg = '\nERROR: There is not defined SLA_SETTINGS_FILE environment variable ' \
           '\n       pointing to configuration file or there is no fiware-sla.ini file' \
           '\n       in the /etd/init.d directory.' \
           '\n\n       Please correct at least one of them to execute the program.'
     exit(msg)
+
+# Settings file is inside Basics directory, therefore I have to go back to the parent directory
+# to have the Code Home directory
+CODE_HOME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOG_HOME = os.path.join(CODE_HOME, 'log')

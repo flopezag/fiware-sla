@@ -55,25 +55,7 @@ chmod 744 ${PYTHON_FILE}
 
 
 
-# 3) Configure logrotate
-
-# Take the file and generate the proper content based on installation
-PATH_TO_CHANGE='\/logs\/user-create\.log'
-NEW_PATH=${result}${PATH_TO_CHANGE}
-
-sed -i -e "s/${PATH_TO_CHANGE}/${NEW_PATH}/" ./config/user-create.logrotate
-
-echo ""
-echo ""
-echo "Please, with root user, execute the following command:"
-echo ""
-echo "cp ./config/user-create.logrotate /etc/logrotate.d/user-create"
-echo ""
-echo ""
-
-
-
-# 4) configure crontab
+# 3) configure crontab
 username=$(whoami)
 result=$(crontab -u ${username} -l 2>/dev/null)
 
@@ -85,8 +67,8 @@ if [ "$result" == "" ]; then
 
     touch /tmp/cronlock
 
-    echo "# FIWARE User Create process" | crontab -
-    (crontab -l; echo "0 * * * * "${working_directory}"/user-create.py --noauth_local_webserver") | crontab -
+    echo "# FIWARE SLA process" | crontab -
+    (crontab -l; echo "0 * * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver") | crontab -
 
     rm -f /tmp/cronlock
 
@@ -95,11 +77,11 @@ else
 
     touch /tmp/cronlock
 
-    line=$(grep "* /2 * * * "${working_directory}"/user-create.py --noauth_local_webserver" a.out)
+    line=$(grep "* /2 * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver" a.out)
     if [ "$line" == "" ]; then
         (crontab -l; echo "") | crontab -
-        (crontab -l; echo "# FIWARE User Create process") | crontab -
-        (crontab -l; echo "0 * * * * "${working_directory}"/user-create.py.py --noauth_local_webserver") | crontab -
+        (crontab -l; echo "# FIWARE SLA process") | crontab -
+        (crontab -l; echo "0 * * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver") | crontab -
     fi
 
     rm -f /tmp/cronlock
