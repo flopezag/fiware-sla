@@ -17,8 +17,7 @@
 ##
 import logging
 import os
-from config.settings import LOG_HOME, LOG_LEVEL
-from config.constants import LOG_FILE
+from config.settings import LOG_HOME, LOG_LEVEL, LOG_FILE
 
 __author__ = 'Fernando López'
 

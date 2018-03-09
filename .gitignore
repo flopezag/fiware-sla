@@ -107,3 +107,6 @@ ENV/
 # Python coding style
 /py27
 /pycodestyle
+
+# Ignore unit tests result file
+xunit.xml

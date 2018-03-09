@@ -102,3 +102,4 @@ else:
 # to have the Code Home directory
 CODE_HOME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOG_HOME = os.path.join(CODE_HOME, 'log')
+LOG_FILE = 'SLAMeassurement.log'

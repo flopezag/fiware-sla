@@ -24,6 +24,7 @@ import datetime
 import pandas as pd
 from core.SLATime import SLATime
 from config.settings import JIRA_USER, JIRA_PASSWORD, JIRA_QUERY, JIRA_URL
+from config.log import logger
 
 __author__ = 'fla'
 
@@ -58,10 +59,12 @@ class Jira():
         progressed = [item.created for item in [history for history in changelog.histories]
                       if (item.items[0].field == 'status'
                           and (
-                                (item.items[0].fromString == 'Open' and item.items[0].toString == 'In Progress')
-                                or
-                                (item.items[0].fromString == 'Open' and item.items[0].toString == 'Answered')
-                              ))]
+                          (item.items[0].fromString ==
+                           'Open' and item.items[0].toString == 'In Progress')
+                          or
+                          (item.items[0].fromString ==
+                           'Open' and item.items[0].toString == 'Answered')
+                      ))]
 
         if len(progressed) == 0:
             # This is an issues that was dismissed, therefore the time should be calculate in a different way
@@ -80,19 +83,23 @@ class Jira():
         try:
             t_progressed = parser.parse(progressed[0])
             # time_response = (t_progressed - t_created).total_seconds()
-            time_response = SLATime.office_time_between(t_created, t_progressed).total_seconds()
+            time_response = SLATime.office_time_between(
+                t_created, t_progressed).total_seconds()
         except Exception:
             # time_response = (t_now - t_created).total_seconds()
-            time_response = SLATime.office_time_between(t_created, t_now).total_seconds()
+            time_response = SLATime.office_time_between(
+                t_created, t_now).total_seconds()
             t_progressed = None
 
         try:
             t_resolved = parser.parse(resolved)
             # time_resolve = (t_resolved - t_created).total_seconds()
-            time_resolve = SLATime.office_time_between(t_created, t_resolved).total_seconds()
+            time_resolve = SLATime.office_time_between(
+                t_created, t_resolved).total_seconds()
         except Exception:
             # time_resolve = (t_now - t_created).total_seconds()
-            time_resolve = SLATime.office_time_between(t_created, t_now).total_seconds()
+            time_resolve = SLATime.office_time_between(
+                t_created, t_now).total_seconds()
             t_resolved = None
 
         # print(created, progressed[0], resolved, unicode(t_created), unicode(t_progressed), unicode(t_resolved))
@@ -103,19 +110,14 @@ class Jira():
 
         df = pd.DataFrame(a_list)
 
-        print('\n')
-        print(df)
-
         nodes = df['hd_node'].unique()
 
-        print(nodes)
+        logger.debug('Dimension of the Dataframe: ({}, {})'.format(
+            df.shape[0], df.shape[1]))
 
         for i in range(0, len(nodes)):
             df_aux = df[df['hd_node'] == nodes[i]]
 
-            # print(series)
-            print('\n')
-            print(df_aux)
             number_time_resolve = df_aux['time_resolve'].count()
             number_time_response = df_aux['time_response'].count()
 
@@ -129,11 +131,13 @@ class Jira():
             limit_response_time = 24 * 60 * 60
             limit_resolution_day = 2 * 24 * 60 * 60
 
-            print('\ntime_response_mean: {}, deviation_response: {}'.format(t2, d2))
-            print('time_resolve_mean: {}, deviation_resolve: {}'.format(t1, d1))
+            logger.debug('Node: {}, time_response_mean: {}, deviation_response: {}'
+                         .format(nodes[i], t2, d2))
+            logger.debug('Node: {}, time_resolve_mean: {}, deviation_resolve: {}'
+                         .format(nodes[i], t1, d1))
 
-            print('\nlimit_response_time: {}, limit_resolution_day: {}'
-                  .format(limit_response_time, limit_resolution_day))
+            logger.debug('Node: {}, limit_response_time: {}, limit_resolution_day: {}'
+                         .format(nodes[i], limit_response_time, limit_resolution_day))
 
             out1 = df_aux[df_aux['time_resolve'] <= limit_resolution_day]
             out2 = df_aux[df_aux['time_response'] <= limit_response_time]
@@ -144,8 +148,11 @@ class Jira():
             p_time_resolve = number_below_time_resolve * 1.0 / number_time_resolve * 100
             p_time_response = number_below_time_response * 1.0 / number_time_response * 100
 
-            print(p_time_resolve)
-            print(p_time_response)
+            logger.info('Node: {}, Percentage tickets response in less than 24 working hours: {}'
+                        .format(nodes[i], p_time_response))
+
+            logger.info('Node: {}, Percentage tickets response in less than 2 working days: {}'
+                        .format(nodes[i], p_time_resolve))
 
             solution_list = {
                 'FIWARE Lab node': nodes[i],
@@ -181,9 +188,10 @@ class Jira():
 
             block_num += 1
 
-            # print(len(list_issues))
-            print(block_num)
+            logger.info(
+                "Processing block of JIRA issues number: {}".format(block_num))
 
-        print(len(self.total_issues))
+        logger.info("Total number of JIRA issues: {}".format(
+            len(self.total_issues)))
 
         return self.total_issues
