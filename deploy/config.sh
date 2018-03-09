@@ -68,7 +68,7 @@ if [ "$result" == "" ]; then
     touch /tmp/cronlock
 
     echo "# FIWARE SLA process" | crontab -
-    (crontab -l; echo "0 * * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver") | crontab -
+    (crontab -l; echo "0 2 * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver") | crontab -
 
     rm -f /tmp/cronlock
 
@@ -77,11 +77,11 @@ else
 
     touch /tmp/cronlock
 
-    line=$(grep "* /2 * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver" a.out)
+    line=$(grep "0 2 * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver" a.out)
     if [ "$line" == "" ]; then
         (crontab -l; echo "") | crontab -
         (crontab -l; echo "# FIWARE SLA process") | crontab -
-        (crontab -l; echo "0 * * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver") | crontab -
+        (crontab -l; echo "0 2 * * * "${working_directory}"/SLAMeassurement.py --noauth_local_webserver") | crontab -
     fi
 
     rm -f /tmp/cronlock
