@@ -90,6 +90,14 @@ if Config.sections():
 
     LOG_LEVEL = check_log_level(log_section['loglevel'])
 
+    # Data from OpenStack section
+    openstack_section = config_section_map("openstack")
+
+    OS_PROJECT_ID = openstack_section['os_project_id']
+    OS_USERNAME = openstack_section['os_username']
+    OS_PASSWORD = openstack_section['os_password']
+    OS_AUTH_URL = openstack_section['os_auth_url']
+    OS_MONASCA_URL = openstack_section['os_monasca_url']
 
 else:
     msg = '\nERROR: There is not defined SLA_SETTINGS_FILE environment variable ' \

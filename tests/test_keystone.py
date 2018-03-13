@@ -17,25 +17,27 @@
 # under the License.
 ##
 
-from core.jiraconnector import Jira
-from core.keystone import Keystone
-from core.monasca import Monasca
-
 __author__ = 'fla'
 
-if __name__ == "__main__":
-    jira_instance = Jira()
+import re
+from unittest import TestCase
+from core.keystone import Keystone
 
-    issues = jira_instance.get_issues()
 
-    result = map(jira_instance.filter_issue, issues)
+class TestAjustHours(TestCase):
+    pass
 
-    solution_data = jira_instance.calculate_statistics(result)
+    def test_get_token(self):
+        """Check the response of the token in order to be sure that it is a valid token"""
+        keystone = Keystone()
 
-    keystone = Keystone()
+        returned_value = keystone.get_token()
 
-    token = keystone.get_token()
+        matchObj = re.match(r'[a-z0-9]*', returned_value, re.M | re.I)
 
-    monasca = Monasca(token)
+        if matchObj:
+            expected_value_len = 32
 
-    monasca.send_meassurements(solution_data)
+            self.assertEqual(expected_value_len, len(returned_value))
+        else:
+            self.assertFalse(False)

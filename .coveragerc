@@ -1,0 +1,10 @@
+[report]
+omit =
+    tests/*
+    setup.py
+    venv/*
+ignore_errors = True
+include =
+    SLAMeassurement.py
+    core/*.py
+    config/*.py
