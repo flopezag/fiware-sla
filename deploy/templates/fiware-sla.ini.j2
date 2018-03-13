@@ -26,3 +26,20 @@ url: {{ jira_server_url }}
 [log]
 # Sets the threshold for the logger level.
 loglevel: {{ log_level }}
+
+[openstack]
+# OpenStack Admin data in order to create the user accounts
+# Set OpenStack Auth URL
+os_auth_url: {{ os_auth_url }}
+
+# Set OpenStack Admin username
+os_username: {{ os_username }}
+
+# Set OpenStack Admin password
+os_password: {{ os_password }}
+
+# Set OpenStack Project ID of the project name: service
+os_project_id: {{ os_project_id }}
+
+# Set OpenStack Monasca URL
+os_monasca_url: {{ os_monasca_url }}

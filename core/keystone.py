@@ -81,6 +81,7 @@ class Keystone:
         token = r.headers['X-Subject-Token']
 
         logger.info('Token obtained, status code: {}'.format(r.status_code))
+        logger.debug('Token: {}'.format(token))
 
         return token
 

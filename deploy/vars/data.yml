@@ -13,3 +13,18 @@ jira_query: <JIRA jql to recover list of tickets>
 
 # LOG Level of the application
 log_level: <LOG Level of the application>
+
+# Set OpenStack Auth URL
+os_auth_url: <OpenStack Auth URL>
+
+# Set OpenStack Admin username
+os_username: <OpenStack Admin username>
+
+# Set OpenStack Admin password
+os_password: <OpenStack Admin password>
+
+# Set OpenStack Project ID of the project name: service
+os_project_id: <OpenStack Project ID of the project name service>
+
+# Set OpenStack Monasca URL
+os_monasca_url: <OpenStack Monasca URL>

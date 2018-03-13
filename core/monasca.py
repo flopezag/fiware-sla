@@ -20,7 +20,6 @@
 import requests
 import json
 import sys
-import calendar
 import time
 from config.settings import OS_MONASCA_URL
 from config.log import logger
@@ -38,9 +37,7 @@ class Monasca:
                         'Accept': 'application/json',
                         'X-Auth-Token': token}
 
-        import calendar
-        import time
-        self.ts = calendar.timegm(time.gmtime())
+        self.milli_sec = int(round(time.time() * 1000))
 
     def send_meassurements(self, meassurements):
         logger.info('Sending meassurements to Monasca...')
@@ -52,7 +49,8 @@ class Monasca:
         ]
 
         flatten_payload = [item for sublist in d for item in sublist]
-        print flatten_payload
+
+        logger.debug('Payload: {}'.format(flatten_payload))
 
         try:
             r = requests.post(self.url, json=flatten_payload,
@@ -86,7 +84,7 @@ class Monasca:
                     "region": meassure[2],
                     "source": "fiware-sla"
                 },
-                "timestamp": self.ts,
+                "timestamp": self.milli_sec,
                 "value": meassure[1],
                 "value_meta": {
                     "number_issues": meassure[3]
@@ -98,7 +96,7 @@ class Monasca:
                     "region": meassure[2],
                     "source": "fiware-sla"
                 },
-                "timestamp": self.ts,
+                "timestamp": self.milli_sec,
                 "value": meassure[0],
                 "value_meta": {
                     "number_issues": meassure[3]
