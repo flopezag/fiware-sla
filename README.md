@@ -45,10 +45,10 @@ a ticket was created on Friday 16/02/2018 at 9:35:24,43 and was resolved on Mond
 at 8:47:43,12 the resolution time will be difference time on friday until end of working day
 plus the difference time from beginning of working day until the resolution time:
 
-16/02/2018: from 09:35:24,43 to 17:00:00,00 = 07:24:35,57
-19/02/2018: from 08:00:00,00 to 08:47:43,12 = 00:47:43,12
+    16/02/2018: from 09:35:24,43 to 17:00:00,00 = 07:24:35,57
+    19/02/2018: from 08:00:00,00 to 08:47:43,12 = 00:47:43,12
 
-TOTAL TIME: 07:24:35,57 + 00:47:43,12 = 08:12:18,69
+    TOTAL TIME: 07:24:35,57 + 00:47:43,12 = 08:12:18,69
 
 Therefore the resolution time in that case was 8 hours, 12 minutes and 18,69 seconds. If the
 ticket was created before 08:00:00, the starting point is considered 08:00:00. If the ticket is
