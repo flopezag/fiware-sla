@@ -111,6 +111,66 @@ Last but not least, the service is added into the
 [crontab](https://manpages.debian.org/jessie/cron/crontab.5.en.html) of the machine in order to
 execute the service every day at 02:00:00.
 
+## Access to the historical information in Monasca
+
+The service is configured in order to send the data to the [FIWARE OpenStack Monasca](monasca.lab.fiware.org)
+service in order to keep a historical information about the resolution of the tickets. You can check those
+meassurements directly over the Monasca API but previously it is required to obtain a secure token
+associated to the ceilometer service requesting it to the Keystone instance:
+
+```console
+curl -X POST   http://cloud.lab.fiware.org:4730/v2.0/tokens  \
+     -H 'Accept: application/json'   \
+     -H 'Content-Type: application/json'   \
+     -d '{
+    "auth": {
+        "tenantName": "service",
+        "passwordCredentials": {
+            "username": "<ceilometer service user, one per region>",
+            "password": "<ceilometer service user password>"
+        }
+    }
+}' | jq .access.token.id
+```
+
+If you do not have installed the [jq tool](https://stedolan.github.io/jq/), please download it in order to navigate
+inside the json response and obtain the proper token id in a easy way.
+
+Now, it is time to remember how is managed the metrics inside Monasca. In order to send the data
+we have defined two dimensions in Monasca:
+
+* metric: a metric name to filter metrics by. By default we have defined the metrics region.ticket_resolve_time
+  and region.ticket_response_time for the percentage of resolve and response of the Help-Desk associated to each
+  region. You can obtain this data also requesting to Monasca API:
+
+  ```console
+  curl -X GET   http://monasca.lab.fiware.org:8070/v2.0/metrics/names   \
+       -H 'Cache-Control: no-cache'   \
+       -H 'X-Auth-Token: <Ceilometer service token>' | jq .elements[].name
+  ```
+
+* source: the application that provide this SLA data, in our case it is fixed to fiware-sla
+* region: this is the region name in which we calculate the values of SLA. You can request the list of available 
+  regions directly to Monasca through the execution of the following query:
+
+  ```console
+  curl -X GET   'http://monasca.lab.fiware.org:8070/v2.0/metrics?name=region.ticket_resolve_time'   \
+       -H 'Cache-Control: no-cache'   \
+       -H 'X-Auth-Token: <Ceilometer service token>' | jq .elements[].dimensions.region
+  ```
+
+Now to request the meassurements associated to the ticket resolve time in the Spain region starting at 15/08/2018
+just execute the following query:
+
+```console
+curl -X GET   'http://monasca.lab.fiware.org:8070/v2.0/metrics/measurements?name=region.ticket_resolve_time&start_time=2018-08-15T00:00:01Z&dimensions=region:Spain'   \
+     -H 'Cache-Control: no-cache'   \
+     -H 'X-Auth-Token: <Ceilometer service token>' | jq
+```
+
+If you want to get more details about the use of OpenStack Monsca API, please take a look to the official
+documentation about it in [monasca-api](https://github.com/openstack/monasca-api).
+
 ## Deployment
 
 There is a specific option to deploy this service in a host. Take a look to
