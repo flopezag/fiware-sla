@@ -42,7 +42,8 @@ class SLATime:
         weekday = t.weekday()
 
         if weekday == 6 or weekday == 5:
-            t = t.replace(day=t.day+(7-weekday), hour=start_hour, minute=0, second=0)
+            t = t + timedelta(days=7-weekday)
+            t = t.replace(hour=start_hour, minute=0, second=0, microsecond=0)
         else:
             if t - t.replace(hour=start_hour, minute=0, second=0) < zero:
                 t = t.replace(hour=start_hour, minute=0, second=0, microsecond=0)

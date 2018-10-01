@@ -60,6 +60,17 @@ class TestAjustHours(TestCase):
 
         self.assertEqual(expected_time_delta, time_delta)
 
+    def test_adjust_time_delta_bug4(self):
+        """The adjust time inside working day is the same time"""
+        a = datetime(2018, 3, 31, 7, 59, 9, 43)
+        start = timedelta(hours=8)
+        stop = timedelta(hours=17)
+
+        time_delta = SLATime.adjust_time_delta(a, start, stop)
+        expected_time_delta = datetime(year=2018, month=4, day=2, hour=8, minute=0, second=0, microsecond=0)
+
+        self.assertEqual(expected_time_delta, time_delta)
+
 
 class TestFullDaysBetweenDays(TestCase):
     pass
