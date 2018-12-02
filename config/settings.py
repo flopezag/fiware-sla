@@ -23,7 +23,7 @@ import os.path
 
 __author__ = 'fla'
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 
 """
