@@ -5,7 +5,7 @@ This content describes how to deploy FIWARE SLA service using an
 [FIWARE Lab](https://cloud.lab.fiware.org) cloud.
 
 It will install the service and the different configurations file in order
-to calculate automatically the SLA leves associated to the response and
+to calculate automatically the SLA levels associated to the response and
 resolution of the JIRA tickets associates to each FIWARE Lab node.
 
 Additionally, it autoconfigures the tool in order to use it every day through

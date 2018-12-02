@@ -20,7 +20,7 @@ Management of FIWARE Lab nodes help-desk tickets SLA resolution timne.
 
 ## Introduction
 
-Python script to calculate the percentage of Help-Desk tickets responsed and resolved per each
+Python script to calculate the percentage of Help-Desk tickets responded and resolved per each
 FIWARE Lab node in less than 24 working hours and less than 48 working hours.
 
 ## Overall description
@@ -35,7 +35,7 @@ Once that we have all the tickets, we categorized them into resolved and respond
 and calculate the time in which they were resolved and responded. A ticket is responded
 when the status of the ticket is moved from 'Open' to 'In Progress' or 'Answered'. A
 ticket is resolved when it is moved from 'Close' status. The tickets that are dismissed
-from 'Open' status are also taking into account in terms of calculate the progress timne
+from 'Open' status are also taking into account in terms of calculate the progress time
 of them.
 
 Next step, once that we have the progressed time is calculate the different time. The process
@@ -60,12 +60,13 @@ In this process is not considered bank holidays for each region.
 
 Once that we have the response and resolution times we send the information to the
 [OpenStack Monasca](https://wiki.openstack.org/wiki/Monasca) instance in order to keep centralized
-the monitoring information and make afterwards if could be neccesary some type of statistical
+the monitoring information and make afterwards if could be necessary some type of statistical
 analysis. For this purpose we store also the number of tickets for each region. Keep in mind,
 that it is needed a request to [OpenStack Keystone](https://wiki.openstack.org/wiki/Keystone)
-service in order to recover a proper token in order to send the information to the [Monasca API](https://github.com/openstack/monasca-api/blob/master/docs/monasca-api-spec.md). In that case we
-are using the tenant name service due to the Monasca instance is configured to pass the monitoring
-information under this tenant.
+service in order to recover a proper token in order to send the information to the 
+[Monasca API](https://github.com/openstack/monasca-api/blob/master/docs/monasca-api-spec.md). 
+In that case we are using the tenant name service due to the Monasca instance is configured to 
+pass the monitoring information under this tenant.
 
 ## Build and Install
 
@@ -115,8 +116,8 @@ execute the service every day at 02:00:00.
 
 The service is configured in order to send the data to the [FIWARE OpenStack Monasca](monasca.lab.fiware.org)
 service in order to keep a historical information about the resolution of the tickets. You can check those
-meassurements directly over the Monasca API but previously it is required to obtain a secure token
-associated to the ceilometer service requesting it to the Keystone instance:
+measurements directly over the Monasca API but previously it is required to obtain a secure token
+associated to the Ceilometer service requesting it to the Keystone instance:
 
 ```console
 curl -X POST   http://cloud.lab.fiware.org:4730/v2.0/tokens  \
@@ -159,7 +160,7 @@ we have defined two dimensions in Monasca:
        -H 'X-Auth-Token: <Ceilometer service token>' | jq .elements[].dimensions.region
   ```
 
-Now to request the meassurements associated to the ticket resolve time in the Spain region starting at 15/08/2018
+Now to request the measurements associated to the ticket resolve time in the Spain region starting at 15/08/2018
 just execute the following query:
 
 ```console
@@ -168,7 +169,7 @@ curl -X GET   'http://monasca.lab.fiware.org:8070/v2.0/metrics/measurements?name
      -H 'X-Auth-Token: <Ceilometer service token>' | jq
 ```
 
-If you want to get more details about the use of OpenStack Monsca API, please take a look to the official
+If you want to get more details about the use of OpenStack Monasca API, please take a look to the official
 documentation about it in [monasca-api](https://github.com/openstack/monasca-api).
 
 ## Deployment
