@@ -1,7 +1,6 @@
 # FIWARE Lab ticket resolution SLA
 
 [![License badge](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Dependency Status](https://gemnasium.com/badges/github.com/flopezag/fiware-sla.svg)](https://gemnasium.com/github.com/flopezag/fiware-sla)
 <!-- [![Build Status](https://travis-ci.org/flopezag/fiware-sla.svg?branch=master)](https://travis-ci.org/flopezag/fiware-sla)
 [![Coverage Status](https://coveralls.io/repos/github/flopezag/fiware-sla/badge.svg)](https://coveralls.io/github/flopezag/fiware-sla)
 [![Documentation Status](https://readthedocs.org/projects/fiware-sla/badge/?version=latest)](http://fiware-sla.readthedocs.io/en/latest/?badge=latest)
